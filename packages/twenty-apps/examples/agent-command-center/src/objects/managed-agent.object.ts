@@ -1,0 +1,158 @@
+import { defineObject, FieldType } from 'twenty-sdk/define';
+
+import {
+  MANAGED_AGENT_ACTIVITY_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_HEARTBEAT_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_INSTRUCTIONS_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_KEY_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_MODEL_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_OBJECT_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_PROGRESS_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_ROLE_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_RUN_ID_FIELD_UNIVERSAL_IDENTIFIER,
+  MANAGED_AGENT_STATUS_FIELD_UNIVERSAL_IDENTIFIER,
+} from 'src/constants/universal-identifiers';
+
+export const MANAGED_AGENT_STATUS_OPTIONS = [
+  {
+    id: '8368fa54-1c83-4c23-a890-da09b3079876',
+    value: 'IDLE',
+    label: 'Idle',
+    position: 0,
+    color: 'gray',
+  },
+  {
+    id: 'daf7a2bb-5fb0-44d8-a1d7-50952de8a9fa',
+    value: 'WORKING',
+    label: 'Working',
+    position: 1,
+    color: 'green',
+  },
+  {
+    id: '713c346c-2ce8-4309-9a47-a9e41cd34a06',
+    value: 'WAITING',
+    label: 'Waiting',
+    position: 2,
+    color: 'blue',
+  },
+  {
+    id: '713a0d1f-8fdf-4a05-8c3d-5beb5fbf72af',
+    value: 'BLOCKED',
+    label: 'Blocked',
+    position: 3,
+    color: 'orange',
+  },
+  {
+    id: 'df277d90-12fc-4f88-9305-1af12c0e60c9',
+    value: 'ERROR',
+    label: 'Error',
+    position: 4,
+    color: 'red',
+  },
+  {
+    id: '3c49f537-7414-4193-b2d8-c325f8f1e17c',
+    value: 'OFFLINE',
+    label: 'Offline',
+    position: 5,
+    color: 'gray',
+  },
+] as const;
+
+export default defineObject({
+  universalIdentifier: MANAGED_AGENT_OBJECT_UNIVERSAL_IDENTIFIER,
+  nameSingular: 'managedAgent',
+  namePlural: 'managedAgents',
+  labelSingular: 'Managed agent',
+  labelPlural: 'Managed agents',
+  description: 'A specialized agent tracked by the command center.',
+  icon: 'IconRobot',
+  labelIdentifierFieldMetadataUniversalIdentifier:
+    MANAGED_AGENT_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+  fields: [
+    {
+      universalIdentifier: MANAGED_AGENT_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'name',
+      label: 'Name',
+      icon: 'IconRobot',
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_KEY_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'key',
+      label: 'Agent key',
+      description: 'Stable key used by runtimes when reporting status.',
+      icon: 'IconKey',
+      isUnique: true,
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_ROLE_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'role',
+      label: 'Role',
+      description:
+        'Free-form responsibility, such as PM, design, legal, QA, or frontend.',
+      icon: 'IconUserCog',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_STATUS_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.SELECT,
+      name: 'status',
+      label: 'Status',
+      icon: 'IconActivity',
+      defaultValue: "'IDLE'",
+      options: [...MANAGED_AGENT_STATUS_OPTIONS],
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_ACTIVITY_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'currentActivity',
+      label: 'Current activity',
+      icon: 'IconPlayerPlay',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_PROGRESS_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.NUMBER,
+      name: 'progress',
+      label: 'Progress (%)',
+      icon: 'IconPercentage',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_RUN_ID_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'currentRunExternalId',
+      label: 'Current run ID',
+      icon: 'IconHash',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_HEARTBEAT_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.DATE_TIME,
+      name: 'lastHeartbeatAt',
+      label: 'Last heartbeat',
+      icon: 'IconHeartbeat',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: MANAGED_AGENT_MODEL_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'model',
+      label: 'Model',
+      icon: 'IconBrain',
+      isNullable: true,
+    },
+    {
+      universalIdentifier:
+        MANAGED_AGENT_INSTRUCTIONS_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.RICH_TEXT,
+      name: 'instructions',
+      label: 'Instructions',
+      icon: 'IconNotes',
+      isNullable: true,
+    },
+  ],
+});

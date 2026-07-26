@@ -1,0 +1,148 @@
+import { defineObject, FieldType } from 'twenty-sdk/define';
+
+import {
+  DELIVERABLE_FILES_FIELD_UNIVERSAL_IDENTIFIER,
+  DELIVERABLE_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+  DELIVERABLE_NOTES_FIELD_UNIVERSAL_IDENTIFIER,
+  DELIVERABLE_OBJECT_UNIVERSAL_IDENTIFIER,
+  DELIVERABLE_STATUS_FIELD_UNIVERSAL_IDENTIFIER,
+  DELIVERABLE_TYPE_FIELD_UNIVERSAL_IDENTIFIER,
+  DELIVERABLE_URL_FIELD_UNIVERSAL_IDENTIFIER,
+} from 'src/constants/universal-identifiers';
+
+export default defineObject({
+  universalIdentifier: DELIVERABLE_OBJECT_UNIVERSAL_IDENTIFIER,
+  nameSingular: 'agentDeliverable',
+  namePlural: 'agentDeliverables',
+  labelSingular: 'Agent deliverable',
+  labelPlural: 'Agent deliverables',
+  description: 'An image, document, link, dataset, or code result from an agent.',
+  icon: 'IconPackageExport',
+  labelIdentifierFieldMetadataUniversalIdentifier:
+    DELIVERABLE_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+  fields: [
+    {
+      universalIdentifier: DELIVERABLE_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'name',
+      label: 'Name',
+      icon: 'IconAbc',
+    },
+    {
+      universalIdentifier: DELIVERABLE_TYPE_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.SELECT,
+      name: 'type',
+      label: 'Type',
+      icon: 'IconCategory',
+      defaultValue: "'OTHER'",
+      options: [
+        {
+          id: 'd25bc826-7361-4e17-aab5-00f43de5a1dd',
+          value: 'IMAGE',
+          label: 'Image',
+          position: 0,
+          color: 'purple',
+        },
+        {
+          id: 'dc3cd35e-5a38-4e45-99b8-3de876857ea1',
+          value: 'DOCUMENT',
+          label: 'Document',
+          position: 1,
+          color: 'blue',
+        },
+        {
+          id: '2ba5eaf2-c6b2-4d6b-9b14-f5b4b09a8da1',
+          value: 'LINK',
+          label: 'Link',
+          position: 2,
+          color: 'cyan',
+        },
+        {
+          id: '360d3f03-4218-4b67-b58b-ce6b1a539124',
+          value: 'DATA',
+          label: 'Data',
+          position: 3,
+          color: 'green',
+        },
+        {
+          id: '5b0474ca-b715-483b-8f20-13ac94b20c32',
+          value: 'CODE',
+          label: 'Code',
+          position: 4,
+          color: 'orange',
+        },
+        {
+          id: 'c99cc62d-2174-46c5-98bc-2a2cc75b1ed8',
+          value: 'OTHER',
+          label: 'Other',
+          position: 5,
+          color: 'gray',
+        },
+      ],
+    },
+    {
+      universalIdentifier: DELIVERABLE_STATUS_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.SELECT,
+      name: 'status',
+      label: 'Status',
+      icon: 'IconProgress',
+      defaultValue: "'DRAFT'",
+      options: [
+        {
+          id: '2ab403a5-287b-4873-abbe-3cb2e044ac44',
+          value: 'DRAFT',
+          label: 'Draft',
+          position: 0,
+          color: 'gray',
+        },
+        {
+          id: '985b61ba-516e-4ed9-b15c-6e32d7e559d9',
+          value: 'REVIEW',
+          label: 'Review',
+          position: 1,
+          color: 'orange',
+        },
+        {
+          id: 'efc27f06-f67d-4604-9965-7cd3649a24e0',
+          value: 'APPROVED',
+          label: 'Approved',
+          position: 2,
+          color: 'green',
+        },
+        {
+          id: '57e11ec6-95fd-472a-89b4-66e68d584745',
+          value: 'REJECTED',
+          label: 'Rejected',
+          position: 3,
+          color: 'red',
+        },
+      ],
+    },
+    {
+      universalIdentifier: DELIVERABLE_FILES_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.FILES,
+      name: 'files',
+      label: 'Files',
+      icon: 'IconPaperclip',
+      isNullable: true,
+      universalSettings: { maxNumberOfValues: 20 },
+    },
+    {
+      universalIdentifier: DELIVERABLE_URL_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.LINKS,
+      name: 'url',
+      label: 'External link',
+      icon: 'IconLink',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: DELIVERABLE_NOTES_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.RICH_TEXT,
+      name: 'notes',
+      label: 'Notes',
+      icon: 'IconNotes',
+      isNullable: true,
+    },
+  ],
+});
+

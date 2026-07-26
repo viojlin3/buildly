@@ -1,0 +1,130 @@
+import { defineObject, FieldType } from 'twenty-sdk/define';
+
+import {
+  PROJECT_ASSETS_FIELD_UNIVERSAL_IDENTIFIER,
+  PROJECT_BUDGET_FIELD_UNIVERSAL_IDENTIFIER,
+  PROJECT_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+  PROJECT_OBJECT_UNIVERSAL_IDENTIFIER,
+  PROJECT_OBJECTIVE_FIELD_UNIVERSAL_IDENTIFIER,
+  PROJECT_PROGRESS_FIELD_UNIVERSAL_IDENTIFIER,
+  PROJECT_SPEND_FIELD_UNIVERSAL_IDENTIFIER,
+  PROJECT_STATUS_FIELD_UNIVERSAL_IDENTIFIER,
+  PROJECT_TARGET_DATE_FIELD_UNIVERSAL_IDENTIFIER,
+} from 'src/constants/universal-identifiers';
+
+export const PROJECT_STATUS_OPTIONS = [
+  {
+    id: '2cbb2733-34a6-4f6a-a65e-7cd7a5fc7545',
+    value: 'PLANNING',
+    label: 'Planning',
+    position: 0,
+    color: 'gray',
+  },
+  {
+    id: '232770e8-f0a4-450f-a376-1265484b3d77',
+    value: 'ACTIVE',
+    label: 'Active',
+    position: 1,
+    color: 'green',
+  },
+  {
+    id: 'e5e90a5c-d175-44dc-aa1e-974d35152925',
+    value: 'PAUSED',
+    label: 'Paused',
+    position: 2,
+    color: 'orange',
+  },
+  {
+    id: 'a6a7b133-c39b-43db-93b3-468549ff7acb',
+    value: 'COMPLETED',
+    label: 'Completed',
+    position: 3,
+    color: 'blue',
+  },
+  {
+    id: 'c2d363bc-ce6b-476c-af93-f38f33b07cdd',
+    value: 'CANCELLED',
+    label: 'Cancelled',
+    position: 4,
+    color: 'red',
+  },
+] as const;
+
+export default defineObject({
+  universalIdentifier: PROJECT_OBJECT_UNIVERSAL_IDENTIFIER,
+  nameSingular: 'agentProject',
+  namePlural: 'agentProjects',
+  labelSingular: 'Agent project',
+  labelPlural: 'Agent projects',
+  description: 'A project coordinated by one or more specialized agents.',
+  icon: 'IconBriefcase',
+  labelIdentifierFieldMetadataUniversalIdentifier:
+    PROJECT_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+  fields: [
+    {
+      universalIdentifier: PROJECT_NAME_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.TEXT,
+      name: 'name',
+      label: 'Name',
+      icon: 'IconAbc',
+    },
+    {
+      universalIdentifier: PROJECT_STATUS_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.SELECT,
+      name: 'status',
+      label: 'Status',
+      icon: 'IconProgress',
+      defaultValue: "'PLANNING'",
+      options: [...PROJECT_STATUS_OPTIONS],
+    },
+    {
+      universalIdentifier: PROJECT_OBJECTIVE_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.RICH_TEXT,
+      name: 'objective',
+      label: 'Objective',
+      icon: 'IconTarget',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: PROJECT_BUDGET_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.CURRENCY,
+      name: 'budget',
+      label: 'Budget',
+      icon: 'IconCash',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: PROJECT_SPEND_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.CURRENCY,
+      name: 'actualSpend',
+      label: 'Actual spend',
+      icon: 'IconReceipt',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: PROJECT_PROGRESS_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.NUMBER,
+      name: 'progress',
+      label: 'Progress (%)',
+      icon: 'IconPercentage',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: PROJECT_TARGET_DATE_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.DATE_TIME,
+      name: 'targetDate',
+      label: 'Target date',
+      icon: 'IconCalendar',
+      isNullable: true,
+    },
+    {
+      universalIdentifier: PROJECT_ASSETS_FIELD_UNIVERSAL_IDENTIFIER,
+      type: FieldType.FILES,
+      name: 'assets',
+      label: 'Assets and inspiration',
+      icon: 'IconPhoto',
+      isNullable: true,
+      universalSettings: { maxNumberOfValues: 60 },
+    },
+  ],
+});
