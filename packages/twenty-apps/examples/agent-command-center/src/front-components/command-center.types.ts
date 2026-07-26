@@ -2,7 +2,7 @@ export type ManagedAgentRecord = {
   id: string;
   name?: string | null;
   key?: string | null;
-  role?: string | null;
+  agentRole?: string | null;
   status?: string | null;
   currentActivity?: string | null;
   progress?: number | null;
@@ -31,7 +31,7 @@ export type AgentRunRecord = {
 export type AgentUpdateRecord = {
   id: string;
   name?: string | null;
-  type?: string | null;
+  updateType?: string | null;
   message?: string | null;
   occurredAt?: string | null;
   progress?: number | null;
@@ -59,4 +59,3 @@ export type CommandCenterData = {
 export type RestListResponse<TRecord> = {
   data?: Record<string, TRecord[] | undefined>;
 };
-

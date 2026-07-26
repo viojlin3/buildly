@@ -38,7 +38,7 @@ type RecordWithId = {
 type ManagedAgentRecord = RecordWithId & {
   name?: string | null;
   key?: string | null;
-  role?: string | null;
+  agentRole?: string | null;
 };
 
 type AgentRunRecord = RecordWithId & {
@@ -303,7 +303,7 @@ export const reportAgentStatus = async (
     >('/rest/managedAgents', {
       name: input.agentName ?? formatAgentName(input.agentKey),
       key: input.agentKey,
-      role: input.agentRole ?? 'Custom',
+      agentRole: input.agentRole ?? 'Custom',
       status: statusToAgentStatus(input.status),
       currentActivity: input.message,
       progress,
@@ -366,7 +366,7 @@ export const reportAgentStatus = async (
 
   await client.post('/rest/agentUpdates', {
     name: `${agent.name ?? input.agentKey} · ${input.status.toLowerCase()}`,
-    type: statusToUpdateType(input.status),
+    updateType: statusToUpdateType(input.status),
     message: input.message,
     occurredAt,
     progress,
@@ -376,7 +376,7 @@ export const reportAgentStatus = async (
 
   await client.patch(`/rest/managedAgents/${agent.id}`, {
     ...(input.agentName ? { name: input.agentName } : {}),
-    ...(input.agentRole ? { role: input.agentRole } : {}),
+    ...(input.agentRole ? { agentRole: input.agentRole } : {}),
     ...(input.model ? { model: input.model } : {}),
     ...(input.instructions ? { instructions: input.instructions } : {}),
     status: statusToAgentStatus(input.status),

@@ -226,7 +226,7 @@ const AgentCard = ({
               marginBottom: 5,
             }}
           >
-            {agent.role ?? 'CUSTOM'}
+            {agent.agentRole ?? 'CUSTOM'}
           </div>
           <div
             style={{
@@ -321,7 +321,8 @@ export const CommandCenter = () => {
 
   const agents = [...data.agents].sort(
     (left, right) => {
-      const rankDifference = getRoleRank(left.role) - getRoleRank(right.role);
+      const rankDifference =
+        getRoleRank(left.agentRole) - getRoleRank(right.agentRole);
 
       return rankDifference !== 0
         ? rankDifference
@@ -566,7 +567,7 @@ export const CommandCenter = () => {
                     index === 0 ? 'none' : `1px solid ${palette.border}`,
                 }}
               >
-                <StatusPill status={update.type ?? 'STATUS'} />
+                <StatusPill status={update.updateType ?? 'STATUS'} />
                 <div style={{ minWidth: 0 }}>
                   <div
                     style={{

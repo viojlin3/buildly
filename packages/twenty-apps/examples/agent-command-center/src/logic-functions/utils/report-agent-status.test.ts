@@ -100,7 +100,7 @@ describe('reportAgentStatus', () => {
       2,
       '/rest/agentUpdates',
       expect.objectContaining({
-        type: 'STATUS',
+        updateType: 'STATUS',
         runId: 'run-record-id',
         progress: 35,
       }),
@@ -171,7 +171,7 @@ describe('reportAgentStatus', () => {
       expect.objectContaining({
         key: 'a11y-review',
         name: 'Accessibility Reviewer',
-        role: 'Accessibility QA',
+        agentRole: 'Accessibility QA',
         model: 'custom-runtime/v2',
         status: 'WORKING',
       }),

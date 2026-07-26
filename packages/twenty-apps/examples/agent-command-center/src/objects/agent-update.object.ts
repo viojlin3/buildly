@@ -76,7 +76,7 @@ export default defineObject({
     {
       universalIdentifier: AGENT_UPDATE_TYPE_FIELD_UNIVERSAL_IDENTIFIER,
       type: FieldType.SELECT,
-      name: 'type',
+      name: 'updateType',
       label: 'Type',
       icon: 'IconCategory',
       defaultValue: "'PROGRESS'",

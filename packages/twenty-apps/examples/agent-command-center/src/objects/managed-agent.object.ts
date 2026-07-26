@@ -89,7 +89,7 @@ export default defineObject({
     {
       universalIdentifier: MANAGED_AGENT_ROLE_FIELD_UNIVERSAL_IDENTIFIER,
       type: FieldType.TEXT,
-      name: 'role',
+      name: 'agentRole',
       label: 'Role',
       description:
         'Free-form responsibility, such as PM, design, legal, QA, or frontend.',

@@ -31,7 +31,7 @@ export default defineObject({
     {
       universalIdentifier: DELIVERABLE_TYPE_FIELD_UNIVERSAL_IDENTIFIER,
       type: FieldType.SELECT,
-      name: 'type',
+      name: 'deliverableType',
       label: 'Type',
       icon: 'IconCategory',
       defaultValue: "'OTHER'",
@@ -145,4 +145,3 @@ export default defineObject({
     },
   ],
 });
-
