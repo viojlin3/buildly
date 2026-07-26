@@ -13,7 +13,7 @@ export default defineNavigationMenuItem({
   name: 'Agent Deliverables',
   icon: 'IconPackageExport',
   color: 'green',
-  position: 5,
+  position: 6,
   type: NavigationMenuItemType.VIEW,
   folderUniversalIdentifier:
     COMMAND_CENTER_NAVIGATION_UNIVERSAL_IDENTIFIER,

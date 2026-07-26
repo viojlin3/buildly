@@ -13,7 +13,7 @@ export default defineNavigationMenuItem({
   name: 'Agent Approvals',
   icon: 'IconUserCheck',
   color: 'red',
-  position: 6,
+  position: 7,
   type: NavigationMenuItemType.VIEW,
   folderUniversalIdentifier:
     COMMAND_CENTER_NAVIGATION_UNIVERSAL_IDENTIFIER,

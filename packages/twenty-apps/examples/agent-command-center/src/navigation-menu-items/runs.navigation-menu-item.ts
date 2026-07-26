@@ -13,7 +13,7 @@ export default defineNavigationMenuItem({
   name: 'Agent Runs',
   icon: 'IconPlayerPlay',
   color: 'orange',
-  position: 4,
+  position: 5,
   type: NavigationMenuItemType.VIEW,
   folderUniversalIdentifier:
     COMMAND_CENTER_NAVIGATION_UNIVERSAL_IDENTIFIER,

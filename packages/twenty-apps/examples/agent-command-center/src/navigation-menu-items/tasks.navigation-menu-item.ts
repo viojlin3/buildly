@@ -13,7 +13,7 @@ export default defineNavigationMenuItem({
   name: 'Agent Task Board',
   icon: 'IconLayoutKanban',
   color: 'green',
-  position: 3,
+  position: 4,
   type: NavigationMenuItemType.VIEW,
   folderUniversalIdentifier:
     COMMAND_CENTER_NAVIGATION_UNIVERSAL_IDENTIFIER,

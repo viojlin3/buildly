@@ -13,7 +13,7 @@ export default defineNavigationMenuItem({
   name: 'Agent Roster',
   icon: 'IconRobot',
   color: 'purple',
-  position: 2,
+  position: 3,
   type: NavigationMenuItemType.VIEW,
   folderUniversalIdentifier:
     COMMAND_CENTER_NAVIGATION_UNIVERSAL_IDENTIFIER,

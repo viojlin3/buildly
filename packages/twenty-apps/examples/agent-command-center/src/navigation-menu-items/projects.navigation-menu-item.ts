@@ -13,7 +13,7 @@ export default defineNavigationMenuItem({
   name: 'Agent Projects',
   icon: 'IconBriefcase',
   color: 'blue',
-  position: 1,
+  position: 2,
   type: NavigationMenuItemType.VIEW,
   folderUniversalIdentifier:
     COMMAND_CENTER_NAVIGATION_UNIVERSAL_IDENTIFIER,

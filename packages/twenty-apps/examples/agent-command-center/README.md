@@ -14,6 +14,8 @@ The command center answers four practical questions:
 ## What the app adds
 
 - A live command-center dashboard that refreshes every five seconds.
+- An Analytics Dashboard for website visitors, traffic trends, business versus
+  competitor benchmarks, and optional search insights.
 - An agent roster with role, state, current action, progress, run ID, model, and
   last heartbeat.
 - Projects, tasks, individual run instances, timestamped updates, deliverables,
@@ -56,6 +58,27 @@ The Twenty CLI will guide you through connecting the app to the local workspace.
 Open Twenty and expand **Agent Command Center** in the left navigation. Its
 children provide the dashboard Overview, Agent Projects, Agent Roster, Agent
 Task Board, Agent Runs, Agent Deliverables, and Agent Approvals.
+
+**Analytics Dashboard** is a separate top-level workspace area alongside
+**Calendar**, rather than a child of Agent Command Center.
+
+## Analytics Dashboard
+
+The dashboard reads three application-owned record types:
+
+- **Site traffic** stores dated snapshots from GA4, Plausible, PostHog, or
+  another analytics source. Unique visitors answer “How many people visited
+  the site?” without confusing visits with page views.
+- **Competitor benchmarks** compare your business with competitors using the
+  latest evidence-backed measurements. Mark one record as **Your business**.
+- **Search insights** are optional. They are useful when the site has internal
+  search or when search-query data is available: popular terms reveal demand,
+  while no-result terms reveal missing products, features, or content.
+
+Use the management links inside Analytics Dashboard to enter records manually.
+For automation, create scheduled Twenty Workflows that call an analytics or
+competitor-data API and create these records. The dashboard deliberately shows
+empty states until real data is entered; it never invents analytics.
 
 **Calendar** is a separate top-level workspace area. It displays synchronized
 Cal.diy bookings in a weekly time grid using each booking's start and end time,
