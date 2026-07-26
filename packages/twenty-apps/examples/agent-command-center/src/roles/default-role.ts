@@ -13,6 +13,7 @@ import {
   DELIVERABLE_OBJECT_UNIVERSAL_IDENTIFIER,
   MANAGED_AGENT_OBJECT_UNIVERSAL_IDENTIFIER,
   PROJECT_OBJECT_UNIVERSAL_IDENTIFIER,
+  SCHEDULED_MEETING_OBJECT_UNIVERSAL_IDENTIFIER,
 } from 'src/constants/universal-identifiers';
 
 const writableObjectUniversalIdentifiers = [
@@ -23,6 +24,7 @@ const writableObjectUniversalIdentifiers = [
   AGENT_UPDATE_OBJECT_UNIVERSAL_IDENTIFIER,
   DELIVERABLE_OBJECT_UNIVERSAL_IDENTIFIER,
   APPROVAL_OBJECT_UNIVERSAL_IDENTIFIER,
+  SCHEDULED_MEETING_OBJECT_UNIVERSAL_IDENTIFIER,
 ];
 
 export default defineApplicationRole({
@@ -53,4 +55,3 @@ export default defineApplicationRole({
     SystemPermissionFlag.UPLOAD_FILE,
   ],
 });
-

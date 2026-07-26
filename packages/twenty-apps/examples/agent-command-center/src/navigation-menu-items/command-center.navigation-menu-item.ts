@@ -5,7 +5,6 @@ import {
 
 import {
   COMMAND_CENTER_NAVIGATION_UNIVERSAL_IDENTIFIER,
-  COMMAND_CENTER_PAGE_LAYOUT_UNIVERSAL_IDENTIFIER,
 } from 'src/constants/universal-identifiers';
 
 export default defineNavigationMenuItem({
@@ -14,8 +13,5 @@ export default defineNavigationMenuItem({
   icon: 'IconActivityHeartbeat',
   color: 'blue',
   position: 0,
-  type: NavigationMenuItemType.PAGE_LAYOUT,
-  pageLayoutUniversalIdentifier:
-    COMMAND_CENTER_PAGE_LAYOUT_UNIVERSAL_IDENTIFIER,
+  type: NavigationMenuItemType.FOLDER,
 });
-

@@ -9,6 +9,7 @@ import {
   type CommandCenterData,
   type ManagedAgentRecord,
   type RestListResponse,
+  type ScheduledMeetingRecord,
 } from 'src/front-components/command-center.types';
 
 const EMPTY_DATA: CommandCenterData = {
@@ -17,6 +18,7 @@ const EMPTY_DATA: CommandCenterData = {
   runs: [],
   updates: [],
   approvals: [],
+  meetings: [],
 };
 
 const getRecords = <TRecord>(
@@ -44,25 +46,33 @@ export const useCommandCenterData = () => {
     const client = new RestApiClient();
 
     try {
-      const [agents, tasks, runs, updates, approvals] = await Promise.all([
-        client.get<RestListResponse<ManagedAgentRecord>>(
-          '/rest/managedAgents',
-          { query: { limit: 60 } },
-        ),
-        client.get<RestListResponse<AgentTaskRecord>>('/rest/agentTasks', {
-          query: { limit: 60 },
-        }),
-        client.get<RestListResponse<AgentRunRecord>>('/rest/agentRuns', {
-          query: { limit: 60 },
-        }),
-        client.get<RestListResponse<AgentUpdateRecord>>('/rest/agentUpdates', {
-          query: { limit: 30, depth: 1 },
-        }),
-        client.get<RestListResponse<AgentApprovalRecord>>(
-          '/rest/agentApprovals',
-          { query: { limit: 60 } },
-        ),
-      ]);
+      const [agents, tasks, runs, updates, approvals, meetings] =
+        await Promise.all([
+          client.get<RestListResponse<ManagedAgentRecord>>(
+            '/rest/managedAgents',
+            { query: { limit: 60 } },
+          ),
+          client.get<RestListResponse<AgentTaskRecord>>('/rest/agentTasks', {
+            query: { limit: 60 },
+          }),
+          client.get<RestListResponse<AgentRunRecord>>('/rest/agentRuns', {
+            query: { limit: 60 },
+          }),
+          client.get<RestListResponse<AgentUpdateRecord>>(
+            '/rest/agentUpdates',
+            {
+              query: { limit: 30, depth: 1 },
+            },
+          ),
+          client.get<RestListResponse<AgentApprovalRecord>>(
+            '/rest/agentApprovals',
+            { query: { limit: 60 } },
+          ),
+          client.get<RestListResponse<ScheduledMeetingRecord>>(
+            '/rest/scheduledMeetings',
+            { query: { limit: 60, depth: 1 } },
+          ),
+        ]);
 
       const nextUpdates = getRecords(updates, 'agentUpdates').sort(
         (left, right) =>
@@ -75,6 +85,7 @@ export const useCommandCenterData = () => {
         runs: getRecords(runs, 'agentRuns'),
         updates: nextUpdates,
         approvals: getRecords(approvals, 'agentApprovals'),
+        meetings: getRecords(meetings, 'scheduledMeetings'),
       });
       setError(null);
       setLastRefreshedAt(new Date());
@@ -109,4 +120,3 @@ export const useCommandCenterData = () => {
     refresh,
   };
 };
-

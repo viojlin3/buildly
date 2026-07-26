@@ -2,8 +2,15 @@ import { defineFrontComponent } from 'twenty-sdk/define';
 import { useColorScheme } from 'twenty-sdk/front-component';
 
 import { COMMAND_CENTER_FRONT_COMPONENT_UNIVERSAL_IDENTIFIER } from 'src/constants/universal-identifiers';
-import { type ManagedAgentRecord } from 'src/front-components/command-center.types';
+import {
+  type ManagedAgentRecord,
+  type ScheduledMeetingRecord,
+} from 'src/front-components/command-center.types';
 import { useCommandCenterData } from 'src/front-components/use-command-center-data';
+
+const CALDIY_BASE_URL =
+  process.env.CALDIY_BASE_URL?.replace(/\/+$/, '') ??
+  'http://localhost:3001';
 
 const STATUS_COLOR: Record<string, string> = {
   IDLE: '#8b8b8b',
@@ -64,6 +71,26 @@ const formatRelativeTime = (value: string | null | undefined) => {
   const hours = Math.floor(minutes / 60);
 
   return hours < 24 ? `${hours}h ago` : `${Math.floor(hours / 24)}d ago`;
+};
+
+const formatMeetingTime = (value: string | null | undefined) => {
+  if (!value) {
+    return 'Time unavailable';
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return 'Time unavailable';
+  }
+
+  return date.toLocaleString([], {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
 };
 
 const isHeartbeatStale = (agent: ManagedAgentRecord) => {
@@ -313,6 +340,73 @@ const AgentCard = ({
   );
 };
 
+const MeetingRow = ({
+  meeting,
+  palette,
+}: {
+  meeting: ScheduledMeetingRecord;
+  palette: Palette;
+}) => (
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'minmax(210px, 1.3fr) minmax(160px, 1fr) 150px',
+      alignItems: 'center',
+      gap: 14,
+      padding: '13px 15px',
+      borderTop: `1px solid ${palette.border}`,
+    }}
+  >
+    <div style={{ minWidth: 0 }}>
+      <div
+        style={{
+          color: palette.text,
+          fontSize: 13,
+          fontWeight: 600,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {meeting.name ?? 'Scheduled meeting'}
+      </div>
+      <div style={{ color: palette.subtle, fontSize: 10, marginTop: 3 }}>
+        {meeting.attendeeEmail ?? 'No attendee email'}
+      </div>
+    </div>
+    <div style={{ minWidth: 0 }}>
+      <div style={{ color: palette.text, fontSize: 12 }}>
+        {formatMeetingTime(meeting.startsAt)}
+      </div>
+      <div style={{ color: palette.subtle, fontSize: 10, marginTop: 3 }}>
+        {meeting.assignedAgent?.name
+          ? `Agent: ${meeting.assignedAgent.name}`
+          : meeting.agentTask?.name
+            ? `Task: ${meeting.agentTask.name}`
+            : 'Not linked to an agent or task'}
+      </div>
+    </div>
+    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+      <StatusPill status={meeting.bookingStatus ?? 'PENDING'} />
+      {meeting.meetingUrl ? (
+        <a
+          href={meeting.meetingUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            color: palette.accent,
+            fontSize: 11,
+            fontWeight: 600,
+            textDecoration: 'none',
+          }}
+        >
+          Join
+        </a>
+      ) : null}
+    </div>
+  </div>
+);
+
 export const CommandCenter = () => {
   const colorScheme = useColorScheme();
   const palette = getPalette(colorScheme);
@@ -343,6 +437,16 @@ export const CommandCenter = () => {
   const pendingApprovals = data.approvals.filter(
     (approval) => approval.status === 'PENDING',
   ).length;
+  const upcomingMeetings = data.meetings
+    .filter(
+      (meeting) =>
+        ['ACCEPTED', 'PENDING'].includes(meeting.bookingStatus ?? '') &&
+        Date.parse(meeting.startsAt ?? '') >= Date.now(),
+    )
+    .sort(
+      (left, right) =>
+        Date.parse(left.startsAt ?? '') - Date.parse(right.startsAt ?? ''),
+    );
 
   return (
     <main
@@ -395,22 +499,41 @@ export const CommandCenter = () => {
             Who is doing what, on which run, and what needs attention.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => void refresh()}
-          style={{
-            border: `1px solid ${palette.border}`,
-            borderRadius: 9,
-            padding: '8px 12px',
-            background: palette.surface,
-            color: palette.text,
-            cursor: 'pointer',
-            fontSize: 12,
-            fontWeight: 600,
-          }}
-        >
-          Refresh
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <a
+            href={CALDIY_BASE_URL}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              border: `1px solid ${palette.border}`,
+              borderRadius: 9,
+              padding: '8px 12px',
+              background: palette.surface,
+              color: palette.accent,
+              textDecoration: 'none',
+              fontSize: 12,
+              fontWeight: 600,
+            }}
+          >
+            Open Cal.diy
+          </a>
+          <button
+            type="button"
+            onClick={() => void refresh()}
+            style={{
+              border: `1px solid ${palette.border}`,
+              borderRadius: 9,
+              padding: '8px 12px',
+              background: palette.surface,
+              color: palette.text,
+              cursor: 'pointer',
+              fontSize: 12,
+              fontWeight: 600,
+            }}
+          >
+            Refresh
+          </button>
+        </div>
       </header>
 
       {error ? (
@@ -463,6 +586,63 @@ export const CommandCenter = () => {
           detail="Human or PM decisions"
           palette={palette}
         />
+        <Metric
+          label="Upcoming meetings"
+          value={upcomingMeetings.length}
+          detail={`${data.meetings.length} synchronized bookings`}
+          palette={palette}
+        />
+      </section>
+
+      <section
+        aria-labelledby="upcoming-meetings-heading"
+        style={{ marginBottom: 26 }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            justifyContent: 'space-between',
+            gap: 12,
+            marginBottom: 12,
+          }}
+        >
+          <h2
+            id="upcoming-meetings-heading"
+            style={{ color: palette.text, fontSize: 16, margin: 0 }}
+          >
+            Upcoming meetings
+          </h2>
+          <span style={{ color: palette.subtle, fontSize: 11 }}>
+            Synchronized from Cal.diy
+          </span>
+        </div>
+        <div
+          style={{
+            border: `1px solid ${palette.border}`,
+            borderRadius: 12,
+            overflow: 'hidden',
+            background: palette.surface,
+          }}
+        >
+          {upcomingMeetings.length === 0 ? (
+            <div
+              style={{ color: palette.muted, fontSize: 13, padding: 18 }}
+            >
+              No upcoming Cal.diy bookings have been synchronized.
+            </div>
+          ) : (
+            upcomingMeetings
+              .slice(0, 6)
+              .map((meeting) => (
+                <MeetingRow
+                  key={meeting.id}
+                  meeting={meeting}
+                  palette={palette}
+                />
+              ))
+          )}
+        </div>
       </section>
 
       <section aria-labelledby="agent-roster-heading">

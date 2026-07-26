@@ -48,12 +48,32 @@ export type AgentApprovalRecord = {
   status?: string | null;
 };
 
+export type ScheduledMeetingRecord = {
+  id: string;
+  name?: string | null;
+  bookingStatus?: string | null;
+  startsAt?: string | null;
+  endsAt?: string | null;
+  attendeeName?: string | null;
+  attendeeEmail?: string | null;
+  meetingUrl?: string | null;
+  assignedAgent?: {
+    id?: string | null;
+    name?: string | null;
+  } | null;
+  agentTask?: {
+    id?: string | null;
+    name?: string | null;
+  } | null;
+};
+
 export type CommandCenterData = {
   agents: ManagedAgentRecord[];
   tasks: AgentTaskRecord[];
   runs: AgentRunRecord[];
   updates: AgentUpdateRecord[];
   approvals: AgentApprovalRecord[];
+  meetings: ScheduledMeetingRecord[];
 };
 
 export type RestListResponse<TRecord> = {
