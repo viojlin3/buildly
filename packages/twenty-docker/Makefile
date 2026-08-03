@@ -68,6 +68,9 @@ grafana-on-docker: ensure-docker-network
 	-v $(PWD)/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources \
 	grafana/grafana-oss:latest
 
+customize-agent-workspace:
+	docker compose exec -T db sh -c 'psql -v ON_ERROR_STOP=1 -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"' < scripts/customize-agent-workspace.sql
+
 opentelemetry-collector-on-docker: ensure-docker-network
 	docker run -d --network $(DOCKER_NETWORK) \
 	--name twenty_otlp_collector \
